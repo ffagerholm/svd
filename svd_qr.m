@@ -8,8 +8,7 @@ function [U, S, V] = svd_qr(A)
         covariance_matrix = A * A';
     end
     
-    [D, E] = qr_eigs(covariance_matrix);
+    [D, U] = qr_eigs(covariance_matrix);
     S = arrayfun(@sqrt, D);
-    U = E;
-    V = E;
+    V = U;
 return
