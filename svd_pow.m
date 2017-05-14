@@ -18,7 +18,7 @@ function [U, S, V] = svd_pow(A, k, tol, nmax)
     end
     
     if ~exist('k', 'var') || isempty(k); k = min(n, m); end
-    if ~exist('tol', 'var') || isempty(tol); tol = 1.0e-10; end
+    if ~exist('tol', 'var') || isempty(tol); tol = 1.0e-9; end
     if ~exist('nmax', 'var') || isempty(nmax); nmax = 100; end
     
     U = zeros(n, k);

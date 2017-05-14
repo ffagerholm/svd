@@ -1,14 +1,19 @@
 function [U, S, V] = svd_qr(A)
-    [m, n] = size(A);
+    [n, m] = size(A);
+    trans = false;
     
-    % A^T*A and A*A^T have the same eigenvalues
-    if m > n
-        covariance_matrix = A' * A;
-    else 
-        covariance_matrix = A * A';
+    if n < m
+        A = A';
+        trans = true;
     end
     
-    [D, U] = qr_eigs(covariance_matrix);
+    covariance_matrix = A' * A;
+    [D, V] = qr_eigs(covariance_matrix);
     S = arrayfun(@sqrt, D);
-    V = U;
+    U = A*V*(diag(arrayfun(@(x) 1.0/x, S)));
+    
+    if trans
+        % matrix was transposed, we swap the matrices
+        [U, V] = deal(V, U);
+    end
 return

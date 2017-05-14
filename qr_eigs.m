@@ -10,7 +10,7 @@ function [D, U] = qr_eigs(A, tol, nmax)
         error('The matrix must be square'); 
     end
 
-    if ~exist('tol', 'var') || isempty(tol); tol = 1.0e-10; end
+    if ~exist('tol', 'var') || isempty(tol); tol = 1.0e-9; end
     if ~exist('nmax', 'var') || isempty(nmax); nmax = 100; end
     
     T = A;
