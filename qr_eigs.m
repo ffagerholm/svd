@@ -1,6 +1,6 @@
-function [D, U] = qr_eigs(A, tol, nmax)
+function [D, V] = qr_eigs(A, tol, nmax)
     % QR_EIGS computes all the eigenvalues of a matrix A.
-    % D = QR_EIG(A, TOL, NMAX) computes by QR iterations all
+    % [D, V] = QR_EIGS(A, TOL, NMAX) computes by QR iterations all
     % the eigenvalues of A within a tolerance TOL and a
     % maximum number of iteration NMAX. The convergence of
     % this method is not always guaranteed.
@@ -14,14 +14,14 @@ function [D, U] = qr_eigs(A, tol, nmax)
     if ~exist('nmax', 'var') || isempty(nmax); nmax = 100; end
     
     T = A;
-    U = eye(n);
+    V = eye(n);
     niter = 0; 
     test = max(max(abs(tril(A,-1))));
     
     while niter <= nmax && test > tol
         [Q, R] = qr_householder(T); 
         T = R * Q;
-        U = U * Q;
+        V = V * Q;
         niter = niter + 1;
         test = max(max(abs(tril(T,-1))));
     end
