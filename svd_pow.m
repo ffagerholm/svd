@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function [U, S, V] = svd_pow(A, debug, k, tol, nmax)
     %{
     Find the singular value decomposition of the matrix A
@@ -6,8 +7,19 @@ function [U, S, V] = svd_pow(A, debug, k, tol, nmax)
     The SVD of the matrix is found by compuring the eigenvalues and 
     vectors for the matrix A'*A. Eigenvalues are computed using the
     iterated power method in conjunction with deflation.
+=======
+function [U, S, V] = svd_pow(A, k, tol, nmax)
+    % SVD_POW computes the Singular Value Decomposition
+    % of the matrix A.
+    %     A = U*S*V'
+    % 
+    % [U, S, V] = SVD_QR(A, K, TOL, NMAX) computes the SVD 
+    % of a matrix by compuring the eigenvalues and 
+    % vectors for the matrix A'*A. Eigenvalues are computed using the
+    % iterated power method in with deflation.
+    % 
+>>>>>>> ebcf35032adf85c59e7ef5c597e4c78794612537
     
-    %}
     [n, m] = size(A);
     trans = false;
     
@@ -23,7 +35,7 @@ function [U, S, V] = svd_pow(A, debug, k, tol, nmax)
     if ~exist('nmax', 'var') || isempty(nmax); nmax = 100; end
     
     U = zeros(n, k);
-    S = zeros(k, k);
+    S = zeros(k);
     V = zeros(k, m);
  
     for i = 1:k
@@ -31,7 +43,7 @@ function [U, S, V] = svd_pow(A, debug, k, tol, nmax)
         
         % deflation of the matrix
         for j = 1:i
-           A_copy = A_copy - S(j,j) * (U(:, j)*V(:, j)'); 
+           A_copy = A_copy - S(j) * (U(:, j)*V(:, j)'); 
         end
         
         v = power_method(A_copy, tol, nmax, debug);
@@ -40,7 +52,7 @@ function [U, S, V] = svd_pow(A, debug, k, tol, nmax)
         u = u_unnormalized / sigma;
         
         U(:, i) = u;
-        S(i, i) = sigma;
+        S(i) = sigma;
         V(:, i) = v;
     end
     
