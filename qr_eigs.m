@@ -1,4 +1,4 @@
-function [D, V] = qr_eigs(A, tol, nmax)
+function [D, V] = qr_eigs(A, debug, nmax, tol)
     % QR_EIGS computes all the eigenvalues of a matrix A.
     % [D, V] = QR_EIGS(A, TOL, NMAX) computes by QR iterations all
     % the eigenvalues of A within a tolerance TOL and a
@@ -9,29 +9,28 @@ function [D, V] = qr_eigs(A, tol, nmax)
     if n ~= m, 
         error('The matrix must be square'); 
     end
-
-    if ~exist('tol', 'var') || isempty(tol); tol = 1.0e-9; end
-    if ~exist('nmax', 'var') || isempty(nmax); nmax = 100; end
     
     T = A;
     V = eye(n);
-    niter = 0; 
+    iter = 0; 
     test = max(max(abs(tril(A,-1))));
     
-    while niter <= nmax && test > tol
+    while iter <= nmax && test > tol
         [Q, R] = qr_householder(T); 
         T = R * Q;
         V = V * Q;
-        niter = niter + 1;
+        iter = iter + 1;
         test = max(max(abs(tril(T,-1))));
     end
 
-    if niter > nmax
+    if iter > nmax && debug
         warning(['The method does not converge '...
-            'in the maximum number of iterations \n']);
+            'in the maximum number of iterations %i\n'], nmax);
     else
-        fprintf(['The method converges in '...
-                    '%i iterations \n'],niter);
+        if debug
+            fprintf(['The method converged'...
+                    'in %i iteration(s)\n'], iter);
+        end
     end
     D = diag(T);
 return

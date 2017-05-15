@@ -1,4 +1,4 @@
-function [U, S, V] = svd_qr(A)
+function [U, S, V] = svd_qr(A, debug, tol, nmax)
     % SVD_QR computes the Singular Value Decomposition
     % of the matrix A.
     % [U, S, V] = SVD_QR(A) computes the SVD by finding 
@@ -13,6 +13,10 @@ function [U, S, V] = svd_qr(A)
     % The orthogonal matrix V consists of the eigenvectors of 
     % A^T*A, and the singular values are the square roots of
     % the corresponding eigenvaleus.
+    if ~exist('debug', 'var') || isempty(debug); debug = false; end
+    if ~exist('tol', 'var') || isempty(tol); tol = 1.0e-9; end
+    if ~exist('nmax', 'var') || isempty(nmax); nmax = 100; end
+    
     [n, m] = size(A);
     trans = false;
     
@@ -20,13 +24,17 @@ function [U, S, V] = svd_qr(A)
         % There are more rows than columns
         % so we transpose the matrix to get
         % a smaller covariance matrix
+        % A^T*A and A*A^T have the same 
+        % eigenvalues 
         A = A';
         trans = true;
     end
     
+    % create the covarinace matrix for A
     covariance_matrix = A' * A;
-    [D, V] = qr_eigs(covariance_matrix);
-    S = arrayfun(@sqrt, D);
+    % computer the eigenvalues and covarinace matrix
+    [D, V] = qr_eigs(covariance_matrix, debug, tol, nmax);
+    S = diag(arrayfun(@sqrt, D));
     U = A*V*(diag(arrayfun(@(x) 1.0/x, S)));
     
     if trans
