@@ -7,8 +7,9 @@ A = [PW, PL, SW];
 A_c = bsxfun(@minus,A,mean(A));
 
 figure;
+
 rotate3d on;
-sc3d = scatter3(A_c(:, 1), A_c(:, 2), A_c(:, 3), 30, Type,  'filled');
+sc3d = scatter3(A_c(:, 1), A_c(:, 2), A_c(:, 3), 30, Type, 'filled');
 xlabel('Petal width');
 ylabel('Petal length');
 zlabel('Sepal width');
@@ -17,8 +18,6 @@ zlabel('Sepal width');
 
 [U, S, V] = qr_algorithm.svd_qr(A_c);
 fprintf('Error: %e \n', max(max(abs(A_c - U*S*V'))));
-
-
 
 % Projection onto first two principal components
 A_red = U(:, 1:2)*S(1:2, 1:2);

@@ -1,4 +1,4 @@
-eigfunction [d, V] = qr_eigs(A, debug, nmax, tol)
+function [d, V] = qr_eigs(A, debug, nmax, tol)
     % QR_EIGS computes all the eigenvalues of a matrix A.
     % [D, V] = QR_EIGS(A, TOL, NMAX) computes by QR iterations all
     % the eigenvalues of A within a tolerance TOL and a
