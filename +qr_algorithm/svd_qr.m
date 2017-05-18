@@ -1,12 +1,12 @@
-function [U, S, V] = svd_qr(A, debug, tol, nmax)
-    % SVD_QR computes the Singular Value Decomposition
+function [U, S, V] = svd_qr(A, debug, nmax, tol)
+    % SVD_QR computes the reduced Singular Value Decomposition
     % of the matrix A.
     % [U, S, V] = SVD_QR(A) computes the SVD by finding 
     % the eigenvalues and vectors of the covariance matrix
     % A^T*A for A. 
-    % If A is a n,m-matrix, then U is a n,k-matrix containing 
-    % the right singular vectors of A, S is a vector of legth 
-    % k containing the singular values of A and V is a k,m-matrix 
+    % If A is a rank k n,m-matrix, then U is a n,k-matrix containing 
+    % the right singular vectors of A, S is a k,k-matrix 
+    % containing the singular values of A and V is a k,m-matrix 
     % containing the left singular vectors of A. k is the smaller
     % of n and m.
     % 
@@ -14,8 +14,8 @@ function [U, S, V] = svd_qr(A, debug, tol, nmax)
     % A^T*A, and the singular values are the square roots of
     % the corresponding eigenvaleus.
     if ~exist('debug', 'var') || isempty(debug); debug = false; end
-    if ~exist('tol', 'var') || isempty(tol); tol = 1.0e-9; end
     if ~exist('nmax', 'var') || isempty(nmax); nmax = 100; end
+    if ~exist('tol', 'var') || isempty(tol); tol = 1.0e-9; end
     
     [n, m] = size(A);
     trans = false;
@@ -30,12 +30,14 @@ function [U, S, V] = svd_qr(A, debug, tol, nmax)
         trans = true;
     end
     
-    % create the covarinace matrix for A
-    covariance_matrix = A' * A;
+    % create the symmetric matrix X
+    X = A' * A;
     % computer the eigenvalues and covarinace matrix
-    [D, V] = qr_eigs(covariance_matrix, debug, tol, nmax);
-    S = diag(arrayfun(@sqrt, D));
-    U = A*V*(diag(arrayfun(@(x) 1.0/x, S)));
+    % since X is symmetric, the eigenvectors are orthogonal
+    [d, V] = qr_algorithm.qr_eigs(X, debug, nmax, tol);
+    s = arrayfun(@sqrt, d);
+    U = A*V*(diag(arrayfun(@(x) 1.0/x, s)));
+    S = diag(s);
     
     if trans
         % matrix was transposed, we swap the matrices

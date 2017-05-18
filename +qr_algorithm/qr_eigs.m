@@ -1,4 +1,4 @@
-function [D, V] = qr_eigs(A, debug, nmax, tol)
+eigfunction [d, V] = qr_eigs(A, debug, nmax, tol)
     % QR_EIGS computes all the eigenvalues of a matrix A.
     % [D, V] = QR_EIGS(A, TOL, NMAX) computes by QR iterations all
     % the eigenvalues of A within a tolerance TOL and a
@@ -16,7 +16,7 @@ function [D, V] = qr_eigs(A, debug, nmax, tol)
     test = max(max(abs(tril(A,-1))));
     
     while iter <= nmax && test > tol
-        [Q, R] = qr_householder(T); 
+        [Q, R] = qr_algorithm.qr_householder(T); 
         T = R * Q;
         V = V * Q;
         iter = iter + 1;
@@ -32,5 +32,5 @@ function [D, V] = qr_eigs(A, debug, nmax, tol)
                     'in %i iteration(s)\n'], iter);
         end
     end
-    D = diag(T);
+    d = diag(T);
 return
