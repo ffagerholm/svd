@@ -1,4 +1,4 @@
-# svd
-Singular value decomposition of matrices using two methods  
-	1. The iterated power method with deflation  
-	2. QR algorithm
+# SVD
+Singular value decomposition of matrices using the QR algorithm.
+The QR algorithm finds the SVD of an matrix A by computing the 
+eigenvalues and -vectors of the matrix A^T*A. 
