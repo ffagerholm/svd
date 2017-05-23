@@ -13,7 +13,7 @@ function [d, V] = qr_eigs(A, debug, nmax, tol)
     T = A;
     V = eye(n);
     iter = 0; 
-    test = max(max(abs(tril(A,-1))));
+    test = max(max(abs(tril(A, -1))));
     
     while iter <= nmax && test > tol
         [Q, R] = qr_algorithm.qr_householder(T); 

@@ -21,7 +21,8 @@ ylabel('y-axis');
 zlabel('z-axis');
 
 A = [X', Y', Z'];
-A_c = bsxfun(@minus, A, mean(A));
+% center the data for PCA 
+A_c = bsxfun(@minus, A, mean(A))/sqrt(max(size(A)) - 1);
 
 [U, S, V] = qr_algorithm.svd_qr(A_c);
 fprintf('Error: %e \n', max(max(abs(A_c - U*S*V'))));

@@ -32,7 +32,7 @@ function [U, S, V] = svd_qr(A, debug, nmax, tol)
     
     % create the symmetric matrix X
     X = A' * A;
-    % computer the eigenvalues and covarinace matrix
+    % compute the eigenvalues and vectors of X
     % since X is symmetric, the eigenvectors are orthogonal
     [d, V] = qr_algorithm.qr_eigs(X, debug, nmax, tol);
     s = arrayfun(@sqrt, d);

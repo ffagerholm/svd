@@ -5,8 +5,8 @@ plot_3d_vector = @(v, c) quiver3(0, 0, 0, v(1), v(2), v(3), c);
 
 % Type 0 is Setosa; type 1 is Verginica; and type 2 is Versicolor.
 A = [PW, PL, SW];
-% we center the data to obtain the principal components
-A_c = bsxfun(@minus, A, mean(A));
+% center the data for PCA 
+A_c = bsxfun(@minus, A, mean(A))/sqrt(max(size(A)) - 1);
 
 x_max = max(A_c(:,1));
 x_min = min(A_c(:,1));
@@ -42,15 +42,14 @@ axis tight;
 % Plane spanned by two first principal components
 v1 = V(:, 1);
 v2 = V(:, 2);
-plot_3d_vector(30*v1, 'red');
-plot_3d_vector(30*v2, 'red');
+plot_3d_vector(2*v1, 'red');
+plot_3d_vector(2*v2, 'red');
 a = cross(v1, v2);
 [x, y] = meshgrid([x_min x_max], [y_min y_max]);
 z = -(a(1)*x + a(2)*y)/a(3);
 s = surf(x, y, z);
 set(s, 'FaceColor', [0 0 0], 'FaceAlpha', 0.3, 'EdgeAlpha', 0);
 
-%{
 
 % Projection onto first two principal components
 A_red = U(:, 1:2)*S(1:2, 1:2);
@@ -60,5 +59,3 @@ scatter(A_red(:, 1), A_red(:, 2), 30, Type, 'filled');
 xlabel('1st principal component');
 ylabel('2nd principal component');
 %legend('Setosa', 'Verginica', 'Versicolor');
-
-%}
