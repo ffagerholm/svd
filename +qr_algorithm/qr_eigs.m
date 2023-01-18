@@ -28,8 +28,8 @@ function [d, V] = qr_eigs(A, debug, nmax, tol)
             'in the maximum number of iterations %i\n'], nmax);
     else
         if debug
-            fprintf(['The method converged'...
-                    'in %i iteration(s)\n'], iter);
+            fprintf(['The method converged '...
+                     'in %i iteration(s)\n'], iter);
         end
     end
     d = diag(T);

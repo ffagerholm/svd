@@ -1,3 +1,5 @@
+clear all;
+
 import qr_algorithm.*
 load('data/fisher.mat');
 
@@ -13,16 +15,17 @@ A_c = bsxfun(@minus, A, mean(A));
 % prepare data for PCA
 Y = A_c/sqrt(max(size(A)) - 1);
 
-x_max = max(A_c(:,1));
-x_min = min(A_c(:,1));
-y_max = max(A_c(:,2));
-y_min = min(A_c(:,2));
+x_max = max(Y(:,1));
+x_min = min(Y(:,1));
+y_max = max(Y(:,2));
+y_min = min(Y(:,2));
+z_max = max(Y(:,3));
+z_min = min(Y(:,3));
 
 figure;
 hold on;
 rotate3d on;
 grid on;
-%axis([x_min x_max y_min y_max z_min z_max])
 
 % 3D scatter plot pf data
 sc3d = scatter3(Y(:, 1), Y(:, 2), Y(:, 3), 30, Type, 'filled');

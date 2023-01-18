@@ -1,3 +1,4 @@
+clear all;
 
 % We construct a matrix with eigenvalues that are close to each other  
 V = rand(10, 10);
