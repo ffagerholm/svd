@@ -36,7 +36,7 @@ function [U, S, V] = svd_qr(A, debug, nmax, tol)
     % since X is symmetric, the eigenvectors are orthogonal
     [d, V] = qr_algorithm.qr_eigs(X, debug, nmax, tol);
     s = arrayfun(@sqrt, d);
-    S_inv = diag(arrayfun(@(x) qr_algorithm.minverse(x), s));
+    S_inv = diag(arrayfun(@(x) 1 / x, s));
     U = A*V*S_inv;
     S = diag(s);
     

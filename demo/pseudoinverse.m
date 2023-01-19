@@ -1,3 +1,4 @@
+clear all;
 % function for plotting 3D vectors starting from the origin
 % v is vector with 3 components
 % c is the color of the vector
@@ -43,7 +44,7 @@ fprintf('Condition number: %e \n', cond(A));
 
 
 % Compute the pseudoinverse
-S_inv = diag(arrayfun(@(x) qr_algorithm.minverse(x), diag(S)));
+S_inv = diag(arrayfun(@(x) 1 / x, diag(S)));
 A_pinv = V*S_inv*U';
 
 x = A_pinv*b;
@@ -61,9 +62,7 @@ A = [1, 2, 3; 5, 7, 2; 7, 3, 9];
 A_inv = inv(A);
 % pseudoinverse of A
 [U, S, V] = qr_algorithm.svd_qr(A);
-S_inv = diag(arrayfun(@(x) minverse(x), diag(S)));
+S_inv = diag(arrayfun(@(x) 1 / x, diag(S)));
 A_pinv = V*S_inv*U';
 % Greatest difference
 fprintf('Pseudoinverse error: %e \n', max(max(abs(A_inv - A_pinv))));
-
-
